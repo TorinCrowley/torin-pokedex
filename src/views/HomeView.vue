@@ -36,11 +36,9 @@ onMounted(loadPokemon)
       <PokemonCard v-for="pokemon in pokemonList" :key="pokemon.id" :pokemon="pokemon" />
     </div>
 
-    <button @click="loadPokemon" :disabled="isLoading">
+    <button v-if="!error" @click="loadPokemon" :disabled="isLoading">
       {{ isLoading ? 'Loading...' : 'Load More' }}
     </button>
-
-    <p v-if="isLoading">Loading...</p>
   </main>
 </template>
 
@@ -65,8 +63,14 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
+  margin: 1.5rem auto 0;
+  display: block;
 }
 button:hover {
   background: #2980b9;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
