@@ -70,7 +70,9 @@ async function loadTypeFilter(type) {
   error.value = null
   namesOfSelectedType.value = new Set() // show nothing while the type list loads
   try {
-    namesOfSelectedType.value = new Set(await getPokemonNamesByType(type))
+    const names = await getPokemonNamesByType(type)
+    if (type !== selectedType.value) return // fix: the user picked a different type while we waited, so ignore this response
+    namesOfSelectedType.value = new Set(names)
   } catch (err) {
     error.value = 'Could not load that type. Please try again.'
     console.error(err)
