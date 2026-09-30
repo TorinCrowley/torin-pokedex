@@ -2,11 +2,13 @@
 import { ref, watch } from 'vue'
 import { getPokemon } from '@/services/pokeapi.js'
 import { getTypeColor } from '@/utils/typeColors.js'
+import { useTeamStore, MAX_TEAM_SIZE } from '@/stores/team.js'
 
 const props = defineProps({
   name: { type: String, required: true },
 })
 
+const team = useTeamStore()
 const pokemon = ref(null)
 const isLoading = ref(false)
 const error = ref(null)
@@ -73,6 +75,22 @@ watch(() => props.name, loadPokemon, { immediate: true })
           >
             {{ type }}
           </span>
+        </div>
+
+        <div class="team-actions">
+          <button
+            v-if="team.isOnTeam(pokemon.id)"
+            class="remove"
+            @click="team.removePokemon(pokemon.id)"
+          >
+            Remove from Team
+          </button>
+          <button v-else :disabled="team.isFull" @click="team.addPokemon(pokemon)">
+            Add to Team
+          </button>
+          <p v-if="team.isFull && !team.isOnTeam(pokemon.id)" class="hint">
+            Your team is full ({{ MAX_TEAM_SIZE }}/{{ MAX_TEAM_SIZE }}). Remove someone first.
+          </p>
         </div>
 
         <p>Height: {{ pokemon.height }} m · Weight: {{ pokemon.weight }} kg</p>
@@ -198,5 +216,18 @@ h2 {
 }
 .next {
   margin-left: auto;
+}
+.team-actions {
+  margin: 1rem 0;
+}
+.remove {
+  background: #c0392b;
+}
+.remove:hover {
+  background: #a93226;
+}
+.hint {
+  color: #888;
+  font-size: 0.85rem;
 }
 </style>
