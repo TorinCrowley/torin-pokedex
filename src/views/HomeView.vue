@@ -67,6 +67,7 @@ async function loadTypeFilter(type) {
     namesOfSelectedType.value = null
     return
   }
+  error.value = null
   namesOfSelectedType.value = new Set() // show nothing while the type list loads
   try {
     namesOfSelectedType.value = new Set(await getPokemonNamesByType(type))
@@ -84,6 +85,11 @@ async function retry() {
 
 function loadMore() {
   displayCount.value += PAGE_SIZE
+}
+
+function clearFilters() {
+  searchQuery.value = ''
+  selectedType.value = ''
 }
 
 // --- Reacting to changes ---
@@ -106,21 +112,16 @@ onMounted(loadIndex)
     <h1>Pokédex</h1>
 
     <div class="filters">
-      <button
-        :disabled="!searchQuery && !selectedType"
-        @click="((searchQuery = ''), (selectedType = ''))"
-      >
-        Clear Filters
-      </button>
       <input
         v-model="searchQuery"
         type="search"
-        placeholder="Search for a Pokémon by it's name or number..."
+        placeholder="Search for a Pokémon by its name or number..."
       />
       <select v-model="selectedType">
         <option value="">All types</option>
         <option v-for="type in POKEMON_TYPES" :key="type" :value="type">{{ type }}</option>
       </select>
+      <button :disabled="!searchQuery && !selectedType" @click="clearFilters">Clear Filters</button>
     </div>
 
     <p v-if="allPokemon.length" class="result-count">{{ matches.length }} Pokémon found</p>
@@ -172,6 +173,7 @@ onMounted(loadIndex)
   display: flex;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 .filters input {
   flex: 1;

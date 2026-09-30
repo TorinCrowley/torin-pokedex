@@ -55,8 +55,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
           <RouterLink
             v-if="pokemon.id < LAST_POKEMON_ID"
             :to="'/pokemon/' + (pokemon.id + 1)"
-            class="nav-btn"
-            style="margin-left: auto"
+            class="nav-btn next"
           >
             Next →
           </RouterLink>
@@ -196,5 +195,8 @@ h2 {
   display: flex;
   justify-content: space-between;
   margin-top: 1.5rem;
+}
+.next {
+  margin-left: auto;
 }
 </style>
