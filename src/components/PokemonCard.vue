@@ -1,5 +1,5 @@
 <script setup>
-import { getTypeColor } from '@/utils/typeColors'
+import { getTypeColor } from '@/utils/typeColors.js'
 defineProps({
   pokemon: { type: Object, required: true },
 })

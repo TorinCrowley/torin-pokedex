@@ -11,6 +11,7 @@ const pokemon = ref(null)
 const isLoading = ref(false)
 const error = ref(null)
 const MAX_STAT = 255 // highest possible base stat, used to size the bars
+const LAST_POKEMON_ID = 1025 // assuming there are currently up to 1025 Pokémon in the database
 
 async function loadPokemon() {
   isLoading.value = true
@@ -48,11 +49,15 @@ watch(() => props.name, loadPokemon, { immediate: true })
       <img :src="pokemon.image" :alt="pokemon.name" />
       <div class="info">
         <div class="prev-next">
-          <RouterLink v-if="pokemon.id > 1" :to="'/pokemon/' + (pokemon.id - 1)">
-            <button>↑ Previous</button>
+          <RouterLink v-if="pokemon.id > 1" :to="'/pokemon/' + (pokemon.id - 1)" class="nav-btn">
+            ← Previous
           </RouterLink>
-          <RouterLink v-if="pokemon.id < 1025" :to="'/pokemon/' + (pokemon.id + 1)">
-            <button>↓ Next</button>
+          <RouterLink
+            v-if="pokemon.id < LAST_POKEMON_ID"
+            :to="'/pokemon/' + (pokemon.id + 1)"
+            class="nav-btn"
+          >
+            → Next
           </RouterLink>
         </div>
         <p class="number">#{{ String(pokemon.id).padStart(3, '0') }}</p>
@@ -176,9 +181,19 @@ h2 {
     grid-template-columns: 1fr;
   }
 }
+.nav-btn {
+  background: #3498db;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.nav-btn:hover {
+  background: #2980b9;
+}
 .prev-next {
-  display: flex inline;
-  justify-content: flex-end;
-  gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
 }
 </style>

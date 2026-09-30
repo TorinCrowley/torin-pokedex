@@ -36,7 +36,7 @@ onMounted(loadPokemon)
       <PokemonCard v-for="pokemon in pokemonList" :key="pokemon.id" :pokemon="pokemon" />
     </div>
 
-    <button v-if="!error" @click="loadPokemon" :disabled="isLoading">
+    <button v-if="!error" @click="loadPokemon" :disabled="isLoading" class="load-more">
       {{ isLoading ? 'Loading...' : 'Load More' }}
     </button>
   </main>
@@ -55,5 +55,9 @@ onMounted(loadPokemon)
 }
 .error {
   color: #c0392b;
+}
+.load-more {
+  margin: 1.5rem auto 0;
+  display: block;
 }
 </style>

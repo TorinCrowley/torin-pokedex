@@ -20,8 +20,6 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
-  margin: 1.5rem auto 0;
-  display: block;
 }
 button:hover:not(:disabled) {
   background: #2980b9;
