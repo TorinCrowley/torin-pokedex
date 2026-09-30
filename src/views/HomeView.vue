@@ -56,21 +56,4 @@ onMounted(loadPokemon)
 .error {
   color: #c0392b;
 }
-button {
-  background: #3498db;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  margin: 1.5rem auto 0;
-  display: block;
-}
-button:hover {
-  background: #2980b9;
-}
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
 </style>
