@@ -56,8 +56,9 @@ watch(() => props.name, loadPokemon, { immediate: true })
             v-if="pokemon.id < LAST_POKEMON_ID"
             :to="'/pokemon/' + (pokemon.id + 1)"
             class="nav-btn"
+            style="margin-left: auto"
           >
-            → Next
+            Next →
           </RouterLink>
         </div>
         <p class="number">#{{ String(pokemon.id).padStart(3, '0') }}</p>

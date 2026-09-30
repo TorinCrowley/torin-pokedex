@@ -23,3 +23,5 @@ const TYPE_COLORS = {
 export function getTypeColor(type) {
   return TYPE_COLORS[type] ?? '#777' // gray for anything not in the list
 }
+
+export const POKEMON_TYPES = Object.keys(TYPE_COLORS)

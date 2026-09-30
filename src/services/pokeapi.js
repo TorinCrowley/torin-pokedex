@@ -1,14 +1,41 @@
 const BASE_URL = 'https://pokeapi.co/api/v2'
 
-export async function getPokemonList(limit = 20, offset = 0) {
-  const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`)
+// export async function getPokemonList(limit = 20, offset = 0) {
+//   const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`)
+//   if (!response.ok) {
+//     throw new Error(`PokeAPI error: ${response.status}`)
+//   }
+//   const data = await response.json()
+
+//   // The list only gives names, so fetch every Pokémon's details at the same time
+//   return Promise.all(data.results.map((pokemon) => getPokemon(pokemon.name)))
+// }
+
+// Every Pokémon URL ends in its ID: '.../pokemon/25/' → 25
+function idFromUrl(url) {
+  return Number(url.split('/').filter(Boolean).pop())
+}
+
+// Every Pokémon's name + ID in ONE request (no images or types)
+export async function getAllPokemonNames() {
+  const response = await fetch(`${BASE_URL}/pokemon?limit=2000`)
   if (!response.ok) {
     throw new Error(`PokeAPI error: ${response.status}`)
   }
   const data = await response.json()
+  return data.results
+    .map((pokemon) => ({ name: pokemon.name, id: idFromUrl(pokemon.url) }))
+    .filter((pokemon) => pokemon.id < 10000) // IDs 10001+ are alternate forms (megas etc.)
+}
 
-  // The list only gives names, so fetch every Pokémon's details at the same time
-  return Promise.all(data.results.map((pokemon) => getPokemon(pokemon.name)))
+// Names of every Pokémon with a given type, e.g. 'fire'
+export async function getPokemonNamesByType(type) {
+  const response = await fetch(`${BASE_URL}/type/${type}`)
+  if (!response.ok) {
+    throw new Error(`PokeAPI error: ${response.status}`)
+  }
+  const data = await response.json()
+  return data.pokemon.map((entry) => entry.pokemon.name)
 }
 
 export async function getPokemon(nameOrId) {
