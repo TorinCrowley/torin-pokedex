@@ -1,8 +1,18 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, RouterLink } from 'vue-router'
+import { useTeamStore } from '@/stores/team.js'
+
+const team = useTeamStore()
 </script>
 
 <template>
+  <header class="navbar">
+    <RouterLink to="/" class="brand">Torin's Pokédex</RouterLink>
+    <nav>
+      <RouterLink to="/">Pokédex</RouterLink>
+      <RouterLink to="/team">My Team ({{ team.members.length }})</RouterLink>
+    </nav>
+  </header>
   <RouterView />
 </template>
 
@@ -27,5 +37,17 @@ button:hover:not(:disabled) {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+.navbar a {
+  color: #444;
+  text-decoration: none;
+  font-weight: 600;
+}
+.navbar nav {
+  display: flex;
+  gap: 1.25rem;
+}
+.navbar nav a.router-link-exact-active {
+  color: #3498db;
 }
 </style>
