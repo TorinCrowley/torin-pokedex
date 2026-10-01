@@ -1,24 +1,24 @@
 <script setup>
 import { getTypeColor } from '@/utils/typeColors.js'
 import { useTeamStore } from '@/stores/team.js'
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   pokemon: { type: Object, required: true },
   showTeamBadge: { type: Boolean, default: true },
 })
 
 const team = useTeamStore()
+const showBadge = computed(() => props.showTeamBadge && team.isOnTeam(props.pokemon.id))
 </script>
 
 <template>
   <RouterLink
     :to="{ name: 'pokemon-detail', params: { name: pokemon.name } }"
     class="card"
-    :class="{ 'on-team': team.isOnTeam(pokemon.id) && showTeamBadge }"
+    :class="{ 'on-team': showBadge }"
   >
-    <span v-if="team.isOnTeam(pokemon.id) && showTeamBadge" class="team-badge" title="On your team"
-      >★</span
-    >
+    <span v-if="showBadge" class="team-badge" title="On your team">★</span>
     <img :src="pokemon.image" :alt="pokemon.name" loading="lazy" />
     <p class="number">#{{ String(pokemon.id).padStart(3, '0') }}</p>
     <h3 class="name">{{ pokemon.name }}</h3>
