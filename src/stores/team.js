@@ -7,8 +7,8 @@ export const MAX_TEAM_SIZE = 6
 // Read the saved team from the browser, or start empty
 function loadSavedTeam() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? JSON.parse(saved) : []
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    return Array.isArray(saved) ? saved : [] // anything that isn't a list → start empty
   } catch {
     return [] // saved data was corrupted or storage is blocked, so start fresh
   }

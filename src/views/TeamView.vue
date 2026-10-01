@@ -15,7 +15,7 @@ const team = useTeamStore()
 
     <div v-else class="grid">
       <div v-for="pokemon in team.members" :key="pokemon.id" class="slot">
-        <PokemonCard :pokemon="pokemon" />
+        <PokemonCard :pokemon="pokemon" :show-team-badge="false" />
         <button class="remove" @click="team.removePokemon(pokemon.id)">Remove</button>
       </div>
     </div>

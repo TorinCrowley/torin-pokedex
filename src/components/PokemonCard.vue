@@ -1,12 +1,24 @@
 <script setup>
 import { getTypeColor } from '@/utils/typeColors.js'
+import { useTeamStore } from '@/stores/team.js'
+
 defineProps({
   pokemon: { type: Object, required: true },
+  showTeamBadge: { type: Boolean, default: true },
 })
+
+const team = useTeamStore()
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'pokemon-detail', params: { name: pokemon.name } }" class="card">
+  <RouterLink
+    :to="{ name: 'pokemon-detail', params: { name: pokemon.name } }"
+    class="card"
+    :class="{ 'on-team': team.isOnTeam(pokemon.id) && showTeamBadge }"
+  >
+    <span v-if="team.isOnTeam(pokemon.id) && showTeamBadge" class="team-badge" title="On your team"
+      >★</span
+    >
     <img :src="pokemon.image" :alt="pokemon.name" loading="lazy" />
     <p class="number">#{{ String(pokemon.id).padStart(3, '0') }}</p>
     <h3 class="name">{{ pokemon.name }}</h3>
@@ -34,6 +46,20 @@ defineProps({
   display: block;
   text-decoration: none;
   color: inherit;
+  position: relative;
+}
+.card.on-team {
+  box-shadow:
+    0 0 0 3px #f1c40f,
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.team-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  color: #f1c40f;
+  font-size: 1.25rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 .card:hover {
   transform: translateY(-4px);
