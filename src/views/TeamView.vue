@@ -3,11 +3,20 @@ import PokemonCard from '@/components/PokemonCard.vue'
 import { useTeamStore, MAX_TEAM_SIZE } from '@/stores/team.js'
 
 const team = useTeamStore()
+
+function confirmClear() {
+  if (confirm('Remove all Pokémon from your team?')) {
+    team.clearTeam()
+  }
+}
 </script>
 
 <template>
   <main class="team">
-    <h1>My Team ({{ team.members.length }}/{{ MAX_TEAM_SIZE }})</h1>
+    <div class="header">
+      <h1>My Team ({{ team.members.length }}/{{ MAX_TEAM_SIZE }})</h1>
+      <button v-if="team.members.length" class="clear" @click="confirmClear">Clear Team</button>
+    </div>
 
     <p v-if="team.members.length === 0" class="empty">
       Your team is empty. <RouterLink to="/">Browse the Pokédex</RouterLink> and add some Pokémon!
@@ -43,5 +52,18 @@ const team = useTeamStore()
 }
 .empty {
   color: #666;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.clear {
+  background: #c0392b;
+}
+.clear:hover {
+  background: #a93226;
 }
 </style>
