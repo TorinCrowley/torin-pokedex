@@ -1,6 +1,7 @@
 <script setup>
 import PokemonCard from '@/components/PokemonCard.vue'
 import { useTeamStore, MAX_TEAM_SIZE } from '@/stores/team.js'
+import TypeCoverage from '@/components/TypeCoverage.vue'
 
 const team = useTeamStore()
 
@@ -28,6 +29,7 @@ function confirmClear() {
         <button class="remove" @click="team.removePokemon(pokemon.id)">Remove</button>
       </div>
     </div>
+    <TypeCoverage v-if="team.members.length" :members="team.members" />
   </main>
 </template>
 

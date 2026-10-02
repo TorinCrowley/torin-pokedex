@@ -1,8 +1,14 @@
 const BASE_URL = 'https://pokeapi.co/api/v2'
+const SPRITE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon'
 
 // Every Pokémon URL ends in its ID: '.../pokemon/25/' → 25
 function idFromUrl(url) {
   return Number(url.split('/').filter(Boolean).pop())
+}
+
+// Small pixel-art sprite for a Pokémon, e.g. 25 → Pikachu's sprite
+export function getSpriteUrl(id) {
+  return `${SPRITE_URL}/${id}.png`
 }
 
 // Every Pokémon's name + ID in ONE request (no images or types)
@@ -47,5 +53,23 @@ export async function getPokemon(nameOrId) {
     types: data.types.map((t) => t.type.name),
     abilities: data.abilities.map((a) => ({ name: a.ability.name, hidden: a.is_hidden })),
     stats: data.stats.map((s) => ({ name: s.stat.name, value: s.base_stat })),
+  }
+}
+
+// How a type interacts with other types, e.g. fire is weak to water
+export async function getTypeRelations(type) {
+  const response = await fetch(`${BASE_URL}/type/${type}`)
+  if (!response.ok) {
+    throw new Error(`PokeAPI error: ${response.status}`)
+  }
+  const data = await response.json()
+  const relations = data.damage_relations
+  const names = (list) => list.map((t) => t.name) // [{ name, url }] → ['name']
+
+  return {
+    doubleFrom: names(relations.double_damage_from), // attacks that hit this type for 2×
+    halfFrom: names(relations.half_damage_from), // attacks that hit this type for ½×
+    noFrom: names(relations.no_damage_from), // attacks this type is immune to
+    doubleTo: names(relations.double_damage_to), // types this type hits for 2×
   }
 }
