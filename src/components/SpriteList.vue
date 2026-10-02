@@ -32,14 +32,18 @@ const sprites = computed(() => [
 
 <style scoped>
 .sprites {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
-  min-height: 48px;
+  vertical-align: middle;
+  min-height: 96px;
 }
 .sprite {
-  width: 48px;
-  height: 48px;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  margin: -12px -10px;
 }
 .sprite.faded {
   opacity: 0.45;

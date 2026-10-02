@@ -24,7 +24,7 @@ export function getDefensiveSummary(members, relations) {
       else if (multiplier > 1) weak.push(member)
       else if (multiplier < 1) resist.push(member)
     }
-    const isThreat = weak.length > resist.length + immune.length
+    const isThreat = weak.length >= 2 && weak.length >= resist.length + immune.length
     return { type: attackType, weak, resist, immune, isThreat }
   })
 }

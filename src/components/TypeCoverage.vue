@@ -83,28 +83,36 @@ const threats = computed(() => defense.value.filter((row) => row.isThreat))
       <p v-if="threats.length" class="warning">
         ⚠ Watch out for: {{ threats.map((row) => row.type).join(', ') }}
       </p>
-      <table class="defense">
-        <thead>
-          <tr>
-            <th>Attacking type</th>
-            <th>Weak</th>
-            <th>Resist / immune</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in defense" :key="row.type" :class="{ threat: row.isThreat }">
-            <td>
-              <span class="badge" :style="{ background: getTypeColor(row.type) }">{{
-                row.type
-              }}</span>
-            </td>
-            <td><SpriteList :members="row.weak" /></td>
-            <td><SpriteList :members="row.resist" :faded-members="row.immune" /></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="note">Assumes each Pokémon uses moves of its own types.</p>
+      <div class="table-scroll">
+        <table class="defense">
+          <thead>
+            <tr>
+              <th>Attacking type</th>
+              <th>Weak</th>
+              <th>Resist / immune</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in defense" :key="row.type">
+              <td>
+                <span class="badge" :style="{ background: getTypeColor(row.type) }">{{
+                  row.type
+                }}</span>
+              </td>
+              <td :class="{ empty: !row.weak.length, threat: row.isThreat }">
+                <SpriteList :members="row.weak" />
+              </td>
+              <td :class="{ empty: !row.resist.length && !row.immune.length }">
+                <SpriteList :members="row.resist" :faded-members="row.immune" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        Faded sprites are immune to the corresponding attacking type. Assumes each Pokémon uses
+        moves of its own types.
+      </p>
     </template>
   </section>
 </template>
@@ -158,22 +166,46 @@ h3 {
   font-weight: 600;
   text-transform: capitalize;
 }
+.table-scroll {
+  overflow-x: auto;
+}
 .defense {
   border-collapse: collapse;
   width: 100%;
-  max-width: 700px;
 }
 .defense th,
 .defense td {
-  padding: 0.3rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   text-align: left;
+  vertical-align: middle;
+}
+.defense td.empty {
+  background: rgba(0, 0, 0, 0.04);
 }
 .defense th {
   color: #888;
   font-size: 0.85rem;
 }
-.defense tr.threat {
-  background: #fdecea;
+.defense th:not(:first-child),
+.defense td:not(:first-child) {
+  text-align: center;
+  border-left: 1px solid #e0e0e0;
+}
+.defense thead th {
+  border-bottom: 2px solid #ddd;
+}
+.defense tbody tr {
+  border-bottom: 1px solid #eee;
+}
+.defense tbody tr:last-child {
+  border-bottom: none;
+}
+.defense td:first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+.defense td.threat {
+  background: #fadbd8;
 }
 .note {
   color: #999;
