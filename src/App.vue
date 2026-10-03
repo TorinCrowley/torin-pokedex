@@ -38,6 +38,14 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
 .navbar a {
   color: #444;
   text-decoration: none;
