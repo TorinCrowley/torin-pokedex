@@ -1,6 +1,13 @@
 const BASE_URL = 'https://pokeapi.co/api/v2'
 const SPRITE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon'
 
+async function fetchJson(path) {
+  const response = await fetch(`${BASE_URL}${path}`)
+  if (response.status === 404) throw new Error('not-found')
+  if (!response.ok) throw new Error(`PokeAPI error: ${response.status}`)
+  return response.json()
+}
+
 // Every Pokémon URL ends in its ID: '.../pokemon/25/' → 25
 function idFromUrl(url) {
   return Number(url.split('/').filter(Boolean).pop())
@@ -13,11 +20,7 @@ export function getSpriteUrl(id) {
 
 // Every Pokémon's name + ID in ONE request (no images or types)
 export async function getAllPokemonNames() {
-  const response = await fetch(`${BASE_URL}/pokemon?limit=2000`)
-  if (!response.ok) {
-    throw new Error(`PokeAPI error: ${response.status}`)
-  }
-  const data = await response.json()
+  const data = await fetchJson(`/pokemon?limit=2000`)
   return data.results
     .map((pokemon) => ({ name: pokemon.name, id: idFromUrl(pokemon.url) }))
     .filter((pokemon) => pokemon.id < 10000) // IDs 10001+ are alternate forms (megas etc.)
@@ -25,23 +28,12 @@ export async function getAllPokemonNames() {
 
 // Names of every Pokémon with a given type, e.g. 'fire'
 export async function getPokemonNamesByType(type) {
-  const response = await fetch(`${BASE_URL}/type/${type}`)
-  if (!response.ok) {
-    throw new Error(`PokeAPI error: ${response.status}`)
-  }
-  const data = await response.json()
+  const data = await fetchJson(`/type/${type}`)
   return data.pokemon.map((entry) => entry.pokemon.name)
 }
 
 export async function getPokemon(nameOrId) {
-  const response = await fetch(`${BASE_URL}/pokemon/${String(nameOrId).toLowerCase()}`)
-  if (response.status === 404) {
-    throw new Error('not-found')
-  }
-  if (!response.ok) {
-    throw new Error(`PokeAPI error: ${response.status}`)
-  }
-  const data = await response.json()
+  const data = await fetchJson(`/pokemon/${String(nameOrId).toLowerCase()}`)
 
   // The raw response is huge, so keep only what the page needs
   return {
@@ -58,11 +50,7 @@ export async function getPokemon(nameOrId) {
 
 // How a type interacts with other types, e.g. fire is weak to water
 export async function getTypeRelations(type) {
-  const response = await fetch(`${BASE_URL}/type/${type}`)
-  if (!response.ok) {
-    throw new Error(`PokeAPI error: ${response.status}`)
-  }
-  const data = await response.json()
+  const data = await fetchJson(`/type/${type}`)
   const relations = data.damage_relations
   const names = (list) => list.map((t) => t.name) // [{ name, url }] → ['name']
 
