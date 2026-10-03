@@ -20,6 +20,11 @@ const router = createRouter({
       name: 'team',
       component: () => import('../views/TeamView.vue'),
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
+    },
   ],
 })
 
