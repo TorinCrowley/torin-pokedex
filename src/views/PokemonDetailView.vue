@@ -37,7 +37,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
 </script>
 
 <template>
-  <main class="detail">
+  <main class="page">
     <RouterLink to="/" class="back">← Back to Pokédex</RouterLink>
 
     <p v-if="isLoading">Loading...</p>
@@ -77,7 +77,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
         <div class="team-actions">
           <button
             v-if="team.isOnTeam(pokemon.id)"
-            class="remove"
+            class="danger"
             @click="team.removePokemon(pokemon.id)"
           >
             Remove from Team
@@ -113,11 +113,6 @@ watch(() => props.name, loadPokemon, { immediate: true })
 </template>
 
 <style scoped>
-.detail {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
 .back {
   color: #3498db;
   text-decoration: none;

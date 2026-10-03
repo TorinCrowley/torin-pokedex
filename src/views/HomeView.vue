@@ -123,7 +123,9 @@ onMounted(loadIndex)
         <option value="">All types</option>
         <option v-for="type in POKEMON_TYPES" :key="type" :value="type">{{ type }}</option>
       </select>
-      <button :disabled="!searchQuery && !selectedType" @click="clearFilters">Clear Filters</button>
+      <button class="danger" :disabled="!searchQuery && !selectedType" @click="clearFilters">
+        Clear Filters
+      </button>
     </div>
 
     <p v-if="allPokemon.length" class="result-count">{{ matches.length }} Pokémon found</p>

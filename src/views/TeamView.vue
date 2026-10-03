@@ -16,7 +16,7 @@ function confirmClear() {
   <main class="team">
     <div class="header">
       <h1>My Team ({{ team.members.length }}/{{ MAX_TEAM_SIZE }})</h1>
-      <button v-if="team.members.length" class="clear" @click="confirmClear">Clear Team</button>
+      <button v-if="team.members.length" class="danger" @click="confirmClear">Clear Team</button>
     </div>
 
     <p v-if="team.members.length === 0" class="empty">
@@ -26,7 +26,9 @@ function confirmClear() {
     <div v-else class="grid">
       <div v-for="pokemon in team.members" :key="pokemon.id" class="slot">
         <PokemonCard :pokemon="pokemon" :show-team-badge="false" />
-        <button class="remove" @click="team.removePokemon(pokemon.id)">Remove</button>
+        <button class="pokemon-grid danger remove" @click="team.removePokemon(pokemon.id)">
+          Remove
+        </button>
       </div>
     </div>
     <TypeCoverage v-if="team.members.length" :members="team.members" />
