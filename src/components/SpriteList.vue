@@ -36,7 +36,7 @@ const sprites = computed(() => [
   flex-wrap: nowrap;
   align-items: center;
   vertical-align: middle;
-  min-height: 96px;
+  min-height: 72px;
 }
 .sprite {
   width: 96px;
