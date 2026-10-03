@@ -51,12 +51,16 @@ watch(() => props.name, loadPokemon, { immediate: true })
       <img :src="pokemon.image" :alt="pokemon.name" />
       <div class="info">
         <div class="prev-next">
-          <RouterLink v-if="pokemon.id > 1" :to="'/pokemon/' + (pokemon.id - 1)" class="nav-btn">
+          <RouterLink
+            v-if="pokemon.id > 1"
+            :to="{ name: 'pokemon-detail', params: { name: pokemon.id - 1 } }"
+            class="nav-btn"
+          >
             ← Previous
           </RouterLink>
           <RouterLink
             v-if="pokemon.id < LAST_POKEMON_ID"
-            :to="'/pokemon/' + (pokemon.id + 1)"
+            :to="{ name: 'pokemon-detail', params: { name: pokemon.id + 1 } }"
             class="nav-btn next"
           >
             Next →
