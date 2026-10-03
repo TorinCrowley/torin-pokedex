@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { getTypeRelations } from '@/services/pokeapi.js'
-import { getTypeColor } from '@/utils/typeColors.js'
+import TypeBadge from '@/components/TypeBadge.vue'
 import { getDefensiveSummary, getOffensiveCoverage } from '@/utils/typeCoverage.js'
 import SpriteList from '@/components/SpriteList.vue'
 
@@ -66,15 +66,12 @@ const threats = computed(() => defense.value.filter((row) => row.isThreat))
       <h3>Offense <span class="sub">types your team hits super-effectively</span></h3>
       <p class="summary">{{ coveredCount }} / {{ offense.length }} types covered</p>
       <div class="badges">
-        <span
+        <TypeBadge
           v-for="item in offense"
           :key="item.type"
-          class="badge"
-          :class="{ uncovered: !item.covered }"
-          :style="{ background: item.covered ? getTypeColor(item.type) : '#e0e0e0' }"
-        >
-          {{ item.type }}
-        </span>
+          :type="item.type"
+          :muted="!item.covered"
+        />
       </div>
 
       <h3>
@@ -95,9 +92,7 @@ const threats = computed(() => defense.value.filter((row) => row.isThreat))
           <tbody>
             <tr v-for="row in defense" :key="row.type">
               <td>
-                <span class="badge" :style="{ background: getTypeColor(row.type) }">{{
-                  row.type
-                }}</span>
+                <TypeBadge :type="row.type" />
               </td>
               <td :class="{ empty: !row.weak.length, threat: row.isThreat }">
                 <SpriteList :members="row.weak" />
@@ -146,20 +141,6 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-}
-.badge {
-  display: inline-block;
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.2rem 0.7rem;
-  border-radius: 999px;
-  text-transform: capitalize;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-.badge.uncovered {
-  color: #999;
-  text-shadow: none;
 }
 .warning {
   color: #c0392b;

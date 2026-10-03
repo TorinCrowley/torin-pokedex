@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { getPokemon } from '@/services/pokeapi.js'
-import { getTypeColor } from '@/utils/typeColors.js'
+import TypeBadge from '@/components/TypeBadge.vue'
 import { useTeamStore, MAX_TEAM_SIZE } from '@/stores/team.js'
 
 const props = defineProps({
@@ -71,14 +71,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
         <h1 class="name">{{ pokemon.name }}</h1>
 
         <div class="types">
-          <span
-            v-for="type in pokemon.types"
-            :key="type"
-            class="type"
-            :style="{ backgroundColor: getTypeColor(type) }"
-          >
-            {{ type }}
-          </span>
+          <TypeBadge v-for="type in pokemon.types" :key="type" :type="type" />
         </div>
 
         <div class="team-actions">
@@ -149,7 +142,6 @@ watch(() => props.name, loadPokemon, { immediate: true })
   margin: 0;
 }
 .name,
-.type,
 li,
 .stat-name {
   text-transform: capitalize;
@@ -160,15 +152,6 @@ li,
 .types {
   display: flex;
   gap: 0.5rem;
-}
-.type {
-  background: #777;
-  color: #fff;
-  padding: 0.2rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  font-weight: 600;
 }
 h2 {
   font-size: 1.1rem;

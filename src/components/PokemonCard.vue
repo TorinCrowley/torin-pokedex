@@ -1,5 +1,5 @@
 <script setup>
-import { getTypeColor } from '@/utils/typeColors.js'
+import TypeBadge from '@/components/TypeBadge.vue'
 import { useTeamStore } from '@/stores/team.js'
 import { computed } from 'vue'
 
@@ -23,14 +23,7 @@ const showBadge = computed(() => props.showTeamBadge && team.isOnTeam(props.poke
     <p class="number">#{{ String(pokemon.id).padStart(3, '0') }}</p>
     <h3 class="name">{{ pokemon.name }}</h3>
     <div class="types">
-      <span
-        v-for="type in pokemon.types"
-        :key="type"
-        class="type"
-        :style="{ backgroundColor: getTypeColor(type) }"
-      >
-        {{ type }}
-      </span>
+      <TypeBadge v-for="type in pokemon.types" :key="type" :type="type" />
     </div>
   </RouterLink>
 </template>
@@ -83,14 +76,5 @@ const showBadge = computed(() => props.showTeamBadge && team.isOnTeam(props.poke
   justify-content: center;
   gap: 0.35rem;
   margin-top: 0.5rem;
-}
-.type {
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
-  text-transform: capitalize;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 </style>
