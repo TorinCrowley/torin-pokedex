@@ -143,7 +143,7 @@ h3 {
   gap: 0.4rem;
 }
 .warning {
-  color: #c0392b;
+  color: var(--color-danger);
   font-weight: 600;
   text-transform: capitalize;
 }
@@ -157,7 +157,7 @@ h3 {
 .defense th,
 .defense td {
   padding: 0.25rem 0.75rem;
-  text-align: left;
+  text-align: center;
   vertical-align: middle;
 }
 .defense td.empty {
@@ -169,7 +169,6 @@ h3 {
 }
 .defense th:not(:first-child),
 .defense td:not(:first-child) {
-  text-align: center;
   border-left: 1px solid #e0e0e0;
 }
 .defense thead th {
@@ -192,8 +191,5 @@ h3 {
   color: #999;
   font-size: 0.8rem;
   margin-top: 1rem;
-}
-.error {
-  color: #c0392b;
 }
 </style>

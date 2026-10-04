@@ -37,7 +37,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
 </script>
 
 <template>
-  <main class="page">
+  <main class="page narrow">
     <RouterLink to="/" class="back">← Back to Pokédex</RouterLink>
 
     <p v-if="isLoading">Loading...</p>
@@ -114,7 +114,7 @@ watch(() => props.name, loadPokemon, { immediate: true })
 
 <style scoped>
 .back {
-  color: #3498db;
+  color: var(--color-primary);
   text-decoration: none;
 }
 .pokemon {
@@ -170,11 +170,8 @@ h2 {
   overflow: hidden;
 }
 .bar-fill {
-  background: #3498db;
+  background: var(--color-primary);
   height: 100%;
-}
-.error {
-  color: #c0392b;
 }
 @media (max-width: 640px) {
   .pokemon {
@@ -182,14 +179,14 @@ h2 {
   }
 }
 .nav-btn {
-  background: #3498db;
+  background: var(--color-primary);
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   text-decoration: none;
 }
 .nav-btn:hover {
-  background: #2980b9;
+  background: var(--color-primary-dark);
 }
 .prev-next {
   display: flex;
@@ -201,12 +198,6 @@ h2 {
 }
 .team-actions {
   margin: 1rem 0;
-}
-.remove {
-  background: #c0392b;
-}
-.remove:hover {
-  background: #a93226;
 }
 .hint {
   color: #888;

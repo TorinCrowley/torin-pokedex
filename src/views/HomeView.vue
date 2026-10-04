@@ -110,7 +110,7 @@ onMounted(loadIndex)
 </script>
 
 <template>
-  <main class="home">
+  <main class="page">
     <h1>Pokédex</h1>
 
     <div class="filters">
@@ -123,9 +123,7 @@ onMounted(loadIndex)
         <option value="">All types</option>
         <option v-for="type in POKEMON_TYPES" :key="type" :value="type">{{ type }}</option>
       </select>
-      <button class="danger" :disabled="!searchQuery && !selectedType" @click="clearFilters">
-        Clear Filters
-      </button>
+      <button :disabled="!searchQuery && !selectedType" @click="clearFilters">Clear Filters</button>
     </div>
 
     <p v-if="allPokemon.length" class="result-count">{{ matches.length }} Pokémon found</p>
@@ -135,7 +133,7 @@ onMounted(loadIndex)
       <button @click="retry">Try Again</button>
     </div>
 
-    <div class="grid">
+    <div class="pokemon-grid">
       <PokemonCard v-for="pokemon in visiblePokemon" :key="pokemon.id" :pokemon="pokemon" />
     </div>
 
@@ -156,19 +154,6 @@ onMounted(loadIndex)
 </template>
 
 <style scoped>
-.home {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1rem;
-}
-.error {
-  color: #c0392b;
-}
 .load-more {
   margin: 1.5rem auto 0;
   display: block;

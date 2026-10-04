@@ -1,3 +1,9 @@
+:root {
+  --color-primary: #3498db;
+  --color-primary-dark: #2980b9;
+  --color-danger: #c0392b;
+  --color-danger-dark: #a93226;
+}
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -5,7 +11,7 @@ body {
   color: #222;
 }
 button {
-  background: #3498db;
+  background: var(--color-primary);
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -13,7 +19,7 @@ button {
   cursor: pointer;
 }
 button:hover:not(:disabled) {
-  background: #2980b9;
+  background: var(--color-primary-dark);
 }
 button:disabled {
   opacity: 0.6;
@@ -39,12 +45,6 @@ button:disabled {
 .navbar nav a.router-link-exact-active {
   color: #3498db;
 }
-:root {
-  --color-primary: #3498db;
-  --color-primary-dark: #2980b9;
-  --color-danger: #c0392b;
-  --color-danger-dark: #a93226;
-}
 .page {
   max-width: 1100px;
   margin: 0 auto;
@@ -63,11 +63,4 @@ button.danger {
 }
 button.danger:hover:not(:disabled) {
   background: var(--color-danger-dark);
-}
-.error {
-  color: var(--color-danger);
-}
-.remove {
-  margin-top: 0.5rem;
-  padding: 0.5rem 0;
 }
